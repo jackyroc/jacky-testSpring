@@ -1,6 +1,8 @@
 package com.jackytest.demo.service;
 
+import com.jackytest.demo.common.ResultDto;
 import com.jackytest.demo.dto.UserDto;
+import com.jackytest.demo.entity.TestUser;
 
 /**
  * @author JackyRoc
@@ -9,5 +11,12 @@ import com.jackytest.demo.dto.UserDto;
  */
 public interface TestUserService {
 
-    public String reg(UserDto userDto);
+    /**
+     * 保存数据
+     * @param testUser
+     * @return
+     */
+    public ResultDto<TestUser> save(TestUser testUser);
+
+    public String update(UserDto userDto);
 }
