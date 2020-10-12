@@ -2,14 +2,13 @@ package com.jackytest.demo.service.impl;
 
 import com.jackytest.demo.common.ResultDto;
 import com.jackytest.demo.dao.TestUserMapper;
-import com.jackytest.demo.dto.UserDto;
 import com.jackytest.demo.entity.TestUser;
 import com.jackytest.demo.service.TestUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author JackyRoc
@@ -38,10 +37,29 @@ public class TestUserServiceImpl implements TestUserService {
     }
 
     @Override
-    public String update(UserDto userDto){
-        System.out.println("userDto.Name:"+userDto.getName());
-        System.out.println("userDto.Pwd:"+userDto.getPwd());
+    public ResultDto<TestUser> update(TestUser testUser) {
 
-        return userDto.getName() + "--" + userDto.getPwd();
+        testUser.setUpdateTime(new Date());
+        testUserMapper.updateByPrimaryKeySelective(testUser);
+
+        return ResultDto.success("修改成功", testUser);
     }
+
+    @Override
+    public ResultDto<List<TestUser>> getByName(TestUser testUser) {
+
+//        List<TestUser> testUserList = testUserMapper.select(testUser);
+        List<TestUser> testUserList = testUserMapper.getByName(testUser.getUserName(),testUser.getId());
+        return ResultDto.success("查询成功", testUserList);
+    }
+
+    @Override
+    public ResultDto<TestUser> deleteUser(TestUser testUser) {
+
+        testUserMapper.deleteByPrimaryKey(testUser);
+
+        return ResultDto.success("删除成功", testUser);
+    }
+
+
 }

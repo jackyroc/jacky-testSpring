@@ -15,4 +15,18 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
+  <select id="getByName"
+          resultType="TestUser">
+    SELECT * FROM user
+    <where>
+      <if test="userId != null and userName != ''">
+        id = #{userId}
+      </if>
+      <if test="userName != null and userName != ''">
+        AND user_name like concat('%', #{userName}, '%')
+      </if>
+    </where>
+  </select>
+
 </mapper>

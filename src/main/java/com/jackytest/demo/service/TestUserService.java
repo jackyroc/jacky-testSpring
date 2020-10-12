@@ -4,6 +4,8 @@ import com.jackytest.demo.common.ResultDto;
 import com.jackytest.demo.dto.UserDto;
 import com.jackytest.demo.entity.TestUser;
 
+import java.util.List;
+
 /**
  * @author JackyRoc
  * @version 1.0
@@ -16,7 +18,26 @@ public interface TestUserService {
      * @param testUser
      * @return
      */
-    public ResultDto<TestUser> save(TestUser testUser);
+    ResultDto<TestUser> save(TestUser testUser);
 
-    public String update(UserDto userDto);
+    /**
+     * 更新数据
+     * @param testUser
+     * @return
+     */
+    ResultDto<TestUser> update(TestUser testUser);
+
+    /**
+     * 根据Id和Name模糊查询
+     * @param testUser
+     * @return
+     */
+    ResultDto<List<TestUser>> getByName(TestUser testUser);
+
+    /**
+     * 根据Id和Name删除用户
+     * @param testUser
+     * @return
+     */
+    ResultDto<TestUser> deleteUser(TestUser testUser);
 }

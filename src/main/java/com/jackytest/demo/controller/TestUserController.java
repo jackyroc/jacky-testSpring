@@ -4,16 +4,21 @@ import com.alibaba.fastjson.JSONObject;
 import com.jackytest.demo.common.ResultDto;
 import com.jackytest.demo.common.ServiceException;
 import com.jackytest.demo.dto.AddTestUserDto;
+import com.jackytest.demo.dto.UpdateTestUserDto;
 import com.jackytest.demo.dto.UserDto;
 import com.jackytest.demo.entity.TestUser;
 import com.jackytest.demo.service.TestUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author JackyRoc
@@ -52,6 +57,14 @@ public class TestUserController {
         TestUser testUser = new TestUser();
         BeanUtils.copyProperties(addTestUserDto, testUser);
 
+        if(StringUtils.isEmpty(addTestUserDto.getUserName())){
+            return ResultDto.fail("用户名不能为空");
+        }
+
+        if(StringUtils.isEmpty(addTestUserDto.getPassword())){
+            return ResultDto.fail("密码不能为空");
+        }
+
         log.info("用户注册，请求入参："+ JSONObject.toJSONString(testUser));
 
         return testUserService.save(testUser);
@@ -61,11 +74,23 @@ public class TestUserController {
 //        return "成功注册：" + reg;
 //    }
 
-    @ApiOperation("修改接口")
-    @PutMapping()
-    public String update(@RequestBody UserDto userDto){
-        String update = testUserService.update(userDto);
-        return "修改成功：" + update;
+    @ApiOperation("用户信息修改接口")
+    @PutMapping("updateUser")
+    public ResultDto<TestUser> updateUserInfo(@RequestBody UpdateTestUserDto updateTestUserDto){
+        TestUser testUser = new TestUser();
+        BeanUtils.copyProperties(updateTestUserDto, testUser);
+
+        if(StringUtils.isEmpty(updateTestUserDto.getUserName())){
+            return ResultDto.fail("用户名不能为空");
+        }
+
+        if(StringUtils.isEmpty(updateTestUserDto.getPassword())){
+            return ResultDto.fail("密码不能为空");
+        }
+
+        log.info("用户注册，请求入参："+ JSONObject.toJSONString(testUser));
+
+        return testUserService.update(testUser);
     }
 
     @ApiOperation("业务接口-byId")
@@ -83,4 +108,28 @@ public class TestUserController {
 
         return "id=" + id + ",user=" + user;
     }
+
+    @ApiOperation("查询接口-byName")
+    @GetMapping("getByName")
+    public ResultDto<List<TestUser>> getByName(@RequestParam(value = "userId", required = false) Integer userId, @RequestParam(value = "userName", required = false) String userName  ){
+        TestUser testUser = new TestUser();
+        testUser.setId(userId);
+        testUser.setUserName(userName);
+
+        log.info("用户查询，请求入参："+ JSONObject.toJSONString(testUser));
+
+        return testUserService.getByName(testUser);
+    }
+
+    @ApiOperation("用户删除接口-byId")
+    @DeleteMapping("deleteUser")
+    public ResultDto<TestUser> deleteUser(@RequestParam(value = "userId") Integer userId){
+        TestUser testUser = new TestUser();
+        testUser.setId(userId);
+
+        log.info("用户删除，请求入参："+ JSONObject.toJSONString(testUser));
+
+        return testUserService.deleteUser(testUser);
+    }
+
 }

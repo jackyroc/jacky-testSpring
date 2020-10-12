@@ -13,7 +13,7 @@ spring:
   application:
     name: JackyTest
   datasource:
-    url: jdbc:mysql://jdbc:mysql://127.0.0.1:3306/testspring?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/testspring?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: jacky123
     driver-class-name: com.mysql.cj.jdbc.Driver
