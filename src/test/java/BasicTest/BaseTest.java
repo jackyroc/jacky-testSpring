@@ -1,4 +1,4 @@
-package com.jackytest.demo;
+package BasicTest;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
